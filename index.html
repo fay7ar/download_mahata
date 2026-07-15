@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محطة | أرسل، استلم، وأنت في مكانك</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons (SVG) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root{
+            --primary:#1577FF;
+            --primary-dark:#0E5FD8;
+            --primary-light:#EAF4FF;
+            --text:#233043;
+            --gray:#6C7A89;
+            --border:#E4ECF5;
+            --white:#FFFFFF;
+        }
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:"Cairo",sans-serif;
+        }
+        body{
+            background:linear-gradient(180deg,#EEF6FF,#FFFFFF);
+            color:var(--text);
+        }
+        .container{
+            max-width:1100px;
+            margin:auto;
+            padding:25px;
+        }
+        .hero{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:60px;
+            min-height:100vh;
+            flex-wrap:wrap;
+        }
+        .content{
+            flex:1;
+            min-width:300px;
+        }
+        .logo{
+            width:75px;
+            height:75px;
+            border-radius:18px;
+            margin-bottom:20px;
+        }
+        h1{
+            font-size:55px;
+            font-weight:800;
+            color:var(--primary);
+        }
+        .tagline{
+            font-size:28px;
+            font-weight:700;
+            margin:15px 0;
+            line-height:1.8;
+        }
+        .desc{
+            font-size:18px;
+            color:var(--gray);
+            line-height:2;
+            margin-bottom:35px;
+        }
+        .buttons{
+            display:flex;
+            gap:15px;
+            flex-wrap:wrap;
+        }
+        .btn{
+            text-decoration:none;
+            padding:16px 28px;
+            border-radius:14px;
+            font-weight:700;
+            font-size:18px;
+            display:flex;
+            align-items:center;
+            gap:10px;
+            transition:.25s;
+        }
+        .android{
+            background:var(--primary);
+            color:white;
+        }
+        .android:hover{
+            background:var(--primary-dark);
+            transform:translateY(-3px);
+        }
+        .ios{
+            background:var(--primary-light);
+            color:var(--primary);
+            border:2px solid #D8E9FF;
+            cursor:default;
+        }
+        .phone{
+            flex:1;display:flex;justify-content:center;align-items:center;min-width:350px;
+        }
+        .phone img{
+            width:430px;
+            max-width:100%;
+            border-radius:40px;
+            filter:drop-shadow(0 35px 70px rgba(21,119,255,.28));
+            transition:.35s ease;
+        }
+        .section-title{
+            text-align:center;
+            font-size:34px;
+            margin:80px 0 40px;
+            color:var(--primary);
+            font-weight:800;
+        }
+        .features{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+            gap:20px;
+        }
+        .feature{
+            background:white;
+            border-radius:20px;
+            padding:30px;
+            text-align:center;
+            box-shadow:0 10px 30px rgba(0,0,0,.05);
+            transition:.3s;
+        }
+        .feature:hover{
+            transform:translateY(-6px);
+        }
+        .feature i{
+            font-size:42px;
+            color:var(--primary);
+            margin-bottom:18px;
+        }
+        .feature h3{
+            margin-bottom:12px;
+        }
+        .feature p{
+            color:var(--gray);
+            line-height:1.9;
+        }
+        footer{
+            margin-top:90px;
+            padding:35px;
+            text-align:center;
+            color:var(--gray);
+            border-top:1px solid var(--border);
+        }
+        @media(max-width:900px){
+            .hero{
+                flex-direction:column-reverse;
+                text-align:center;
+                padding-top:40px;
+            }
+            .buttons{
+                justify-content:center;
+            }
+            h1{
+                font-size:42px;
+            }
+            .tagline{
+                font-size:23px;
+            }
+            .phone img{
+                width:430px;
+                max-width:100%;
+                border-radius:40px;
+                filter:drop-shadow(0 35px 70px rgba(21,119,255,.28));
+                transition:.35s ease;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="hero">
+            <div class="content">
+                <h1>محطة</h1>
+                <div class="tagline">
+                    أرسل، استلم، وأنت في مكانك.
+                </div>
+                <p class="desc">
+                    تطبيق محطة يسهّل عليك إرسال واستلام الطلبات بسرعة وأمان، مع تجربة استخدام بسيطة وخدمة توصيل موثوقة.
+                </p>
+                <div class="buttons">
+                    <a href="https://apk.e-droid.net/apk/app3864462-a095yu.apk?v=4" class="btn android">
+                        <i class="bi bi-android2"></i>
+                        تحميل للأندرويد
+                    </a>
+                    <div class="btn ios">
+                        <i class="bi bi-apple"></i>
+                        نسخة الآيفون قريبًا
+                    </div>
+                </div>
+            </div>
+            <div class="phone">
+                <img src="https://up6.cc/2026/07/178414669659021.png" alt="تطبيق محطة">
+            </div>
+        </section>
+        <h2 class="section-title">لماذا محطة؟</h2>
+        <section class="features">
+            <div class="feature">
+                <i class="bi bi-send-fill"></i>
+                <h3>إرسال سريع</h3>
+                <p>
+                    أرسل طلباتك بسهولة وفي ثوانٍ.
+                </p>
+            </div>
+            <div class="feature">
+                <i class="bi bi-box-seam-fill"></i>
+                <h3>استلام مرن</h3>
+                <p>
+                    استلم شحناتك من المكان الذي يناسبك.
+                </p>
+            </div>
+            <div class="feature">
+                <i class="bi bi-geo-alt-fill"></i>
+                <h3>تتبع مباشر</h3>
+                <p>
+                    تابع حالة الطلب لحظة بلحظة.
+                </p>
+            </div>
+            <div class="feature">
+                <i class="bi bi-shield-check"></i>
+                <h3>خدمة آمنة</h3>
+                <p>
+                    بياناتك وطلباتك محفوظة بأعلى درجات الأمان.
+                </p>
+            </div>
+        </section>
+        <footer>
+            <strong>محطة</strong><br><br>
+            أرسل، استلم، وأنت في مكانك.
+            <br><br>
+            © 2026 جميع الحقوق محفوظة.
+        </footer>
+    </div>
+</body>
+</html>
