@@ -3,1088 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محطة - توصيل الأمانات</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>محطة | أرسل، استلم، وأنت في مكانك</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons (SVG) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
-        body { font-family: 'Tajawal', sans-serif; background-color: #f1f5f9; padding-bottom: 90px; }
-        .nav-item.active { color: #2563eb; }
-        .hidden-section { display: none !important; }
-        .badge-status { font-size: 0.7rem; padding: 2px 10px; border-radius: 20px; font-weight: bold; }
-        .status-pending { background-color: #fef3c7; color: #92400e; }
-        .status-approved { background-color: #dcfce7; color: #166534; }
-        .status-client { background-color: #dbeafe; color: #1e40af; }
-        .status-disabled { background-color: #fee2e2; color: #991b1b; }
-        .msg-me { align-self: flex-start; background-color: #2563eb; color: white; border-radius: 15px 15px 0 15px; }
-        .msg-them { align-self: flex-end; background-color: #e2e8f0; color: #1e293b; border-radius: 15px 15px 15px 0; }
-        .order-card { transition: all 0.3s ease; }
-        .order-card:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-        .pulse-dot { animation: pulse 2s infinite; }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-        .driver-info-box { background: linear-gradient(135deg, #1d4ed8, #1e40af); }
-        .status-completed { background-color: #dcfce7; color: #166534; }
-        .auth-tab { transition: all 0.2s ease; }
-        .auth-tab.active { background: #2563eb; color: white; }
-        .auth-tab:not(.active) { background: transparent; color: #64748b; }
-        .otp-input { letter-spacing: 8px; font-size: 1.4rem; text-align: center; font-weight: bold; font-family: monospace; }
-        .step-indicator { transition: all 0.3s ease; }
-        .step-indicator.active { background: #2563eb; color: white; }
-        .step-indicator.done { background: #10b981; color: white; }
-        .password-wrapper { position: relative; }
-        .password-toggle { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; cursor: pointer; }
-        .password-toggle:hover { color: #2563eb; }
+        :root{
+            --primary:#1577FF;
+            --primary-dark:#0E5FD8;
+            --primary-light:#EAF4FF;
+            --text:#233043;
+            --gray:#6C7A89;
+            --border:#E4ECF5;
+            --white:#FFFFFF;
+        }
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:"Cairo",sans-serif;
+        }
+        body{
+            background:linear-gradient(180deg,#EEF6FF,#FFFFFF);
+            color:var(--text);
+        }
+        .container{
+            max-width:1100px;
+            margin:auto;
+            padding:25px;
+        }
+        .hero{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:60px;
+            min-height:100vh;
+            flex-wrap:wrap;
+        }
+        .content{
+            flex:1;
+            min-width:300px;
+        }
+        .logo{
+            width:75px;
+            height:75px;
+            border-radius:18px;
+            margin-bottom:20px;
+        }
+        h1{
+            font-size:55px;
+            font-weight:800;
+            color:var(--primary);
+        }
+        .tagline{
+            font-size:28px;
+            font-weight:700;
+            margin:15px 0;
+            line-height:1.8;
+        }
+        .desc{
+            font-size:18px;
+            color:var(--gray);
+            line-height:2;
+            margin-bottom:35px;
+        }
+        .buttons{
+            display:flex;
+            gap:15px;
+            flex-wrap:wrap;
+        }
+        .btn{
+            text-decoration:none;
+            padding:16px 28px;
+            border-radius:14px;
+            font-weight:700;
+            font-size:18px;
+            display:flex;
+            align-items:center;
+            gap:10px;
+            transition:.25s;
+        }
+        .android{
+            background:var(--primary);
+            color:white;
+        }
+        .android:hover{
+            background:var(--primary-dark);
+            transform:translateY(-3px);
+        }
+        .ios{
+            background:var(--primary-light);
+            color:var(--primary);
+            border:2px solid #D8E9FF;
+            cursor:default;
+        }
+        .phone{
+            flex:1;display:flex;justify-content:center;align-items:center;min-width:350px;
+        }
+        .phone img{
+            width:430px;
+            max-width:100%;
+            border-radius:40px;
+            filter:drop-shadow(0 35px 70px rgba(21,119,255,.28));
+            transition:.35s ease;
+        }
+        .section-title{
+            text-align:center;
+            font-size:34px;
+            margin:80px 0 40px;
+            color:var(--primary);
+            font-weight:800;
+        }
+        .features{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+            gap:20px;
+        }
+        .feature{
+            background:white;
+            border-radius:20px;
+            padding:30px;
+            text-align:center;
+            box-shadow:0 10px 30px rgba(0,0,0,.05);
+            transition:.3s;
+        }
+        .feature:hover{
+            transform:translateY(-6px);
+        }
+        .feature i{
+            font-size:42px;
+            color:var(--primary);
+            margin-bottom:18px;
+        }
+        .feature h3{
+            margin-bottom:12px;
+        }
+        .feature p{
+            color:var(--gray);
+            line-height:1.9;
+        }
+        footer{
+            margin-top:90px;
+            padding:35px;
+            text-align:center;
+            color:var(--gray);
+            border-top:1px solid var(--border);
+        }
+        @media(max-width:900px){
+            .hero{
+                flex-direction:column-reverse;
+                text-align:center;
+                padding-top:40px;
+            }
+            .buttons{
+                justify-content:center;
+            }
+            h1{
+                font-size:42px;
+            }
+            .tagline{
+                font-size:23px;
+            }
+            .phone img{
+                width:430px;
+                max-width:100%;
+                border-radius:40px;
+                filter:drop-shadow(0 35px 70px rgba(21,119,255,.28));
+                transition:.35s ease;
+            }
+        }
     </style>
 </head>
 <body>
-
-    <header class="bg-blue-700 text-white p-4 shadow-md sticky top-0 z-50 flex justify-between items-center">
-        <div class="flex items-center gap-2">
-            <i class="fa fa-box text-yellow-300 text-lg"></i>
-            <h1 class="text-xl font-bold">محطة</h1>
-        </div>
-        <div id="userBadgeHeader" class="badge-status"></div>
-    </header>
-
-    <div class="container mx-auto p-4 max-w-2xl">
-
-        <!-- صفحة المصادقة -->
-        <section id="authPage" class="bg-white p-6 rounded-2xl shadow-xl mt-6">
-            <div class="text-center mb-5">
-                <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-3xl">📦</div>
-                <h2 class="text-2xl font-bold text-gray-800">أهلاً بك في محطة</h2>
-                <p class="text-sm text-gray-400 mt-1">خدمة توصيل الأمانات</p>
-            </div>
-
-            <!-- تبويبات المصادقة -->
-            <div class="flex gap-1 mb-6 bg-slate-100 p-1 rounded-xl">
-                <button onclick="switchAuthTab('login')" id="authTabLogin" class="auth-tab active flex-1 py-2.5 rounded-lg font-bold text-sm">
-                    <i class="fa fa-sign-in-alt ml-1"></i> دخول
-                </button>
-                <button onclick="switchAuthTab('register')" id="authTabRegister" class="auth-tab flex-1 py-2.5 rounded-lg font-bold text-sm">
-                    <i class="fa fa-user-plus ml-1"></i> حساب جديد
-                </button>
-                <button onclick="switchAuthTab('forgot')" id="authTabForgot" class="auth-tab flex-1 py-2.5 rounded-lg font-bold text-sm">
-                    <i class="fa fa-key ml-1"></i> نسيت
-                </button>
-            </div>
-
-            <!-- ═══════════ تسجيل الدخول ═══════════ -->
-            <div id="loginSection">
-                <div class="bg-blue-50 border border-blue-100 rounded-xl p-3 mb-4 text-xs text-blue-700 flex items-start gap-2">
-                    <i class="fa fa-info-circle mt-0.5"></i>
-                    <span>أدخل رقم هاتفك وكلمة المرور الخاصة بحسابك</span>
+    <div class="container">
+        <section class="hero">
+            <div class="content">
+                <h1>محطة</h1>
+                <div class="tagline">
+                    أرسل، استلم، وأنت في مكانك.
                 </div>
-                <input type="tel" id="loginPhone" placeholder="رقم الهاتف" class="w-full p-4 border rounded-xl mb-3 outline-none focus:ring-2 ring-blue-500">
-                <div class="password-wrapper mb-4">
-                    <input type="password" id="loginPassword" placeholder="كلمة المرور" class="w-full p-4 border rounded-xl outline-none focus:ring-2 ring-blue-500">
-                    <i class="fa fa-eye password-toggle" onclick="togglePassword('loginPassword', this)"></i>
-                </div>
-                <button onclick="doLogin()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition">
-                    <i class="fa fa-sign-in-alt ml-2"></i> تسجيل الدخول
-                </button>
-                <p class="text-center text-xs text-gray-400 mt-4">
-                    ليس لديك حساب؟ 
-                    <button onclick="switchAuthTab('register')" class="text-blue-600 font-bold hover:underline">سجّل الآن</button>
+                <p class="desc">
+                    تطبيق محطة يسهّل عليك إرسال واستلام الطلبات بسرعة وأمان، مع تجربة استخدام بسيطة وخدمة توصيل موثوقة.
                 </p>
-            </div>
-
-            <!-- ═══════════ تسجيل جديد ═══════════ -->
-            <div id="registerSection" class="hidden-section">
-                <!-- مؤشر الخطوات -->
-                <div class="flex items-center justify-center gap-2 mb-5">
-                    <div id="step1Indicator" class="step-indicator active w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold">1</div>
-                    <div class="w-8 h-0.5 bg-gray-200"></div>
-                    <div id="step2Indicator" class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold bg-gray-100 text-gray-400">2</div>
-                    <div class="w-8 h-0.5 bg-gray-200"></div>
-                    <div id="step3Indicator" class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold bg-gray-100 text-gray-400">3</div>
-                    <div class="w-8 h-0.5 bg-gray-200"></div>
-                    <div id="step4Indicator" class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold bg-gray-100 text-gray-400">4</div>
-                </div>
-
-                <!-- الخطوة 1: البيانات -->
-                <div id="regStep1">
-                    <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
-                        <i class="fa fa-user text-blue-500"></i> بياناتك الأساسية
-                    </h3>
-                    <input type="text" id="regName" placeholder="الاسم الكامل" class="w-full p-4 border rounded-xl mb-3 outline-none focus:ring-2 ring-blue-500">
-                    <input type="tel" id="regPhone" placeholder="رقم الهاتف (مثال: 0912345678)" class="w-full p-4 border rounded-xl mb-4 outline-none focus:ring-2 ring-blue-500">
-                    
-                    <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
-                        <i class="fa fa-id-card text-blue-500"></i> نوع الحساب
-                    </h3>
-                    <div class="flex gap-3 mb-5">
-                        <button onclick="selectRegRole('client')" id="regRoleClient" class="flex-1 py-4 rounded-xl border-2 font-bold transition-all text-gray-400 border-gray-200">👤 عميل</button>
-                        <button onclick="selectRegRole('driver')" id="regRoleDriver" class="flex-1 py-4 rounded-xl border-2 font-bold transition-all text-gray-400 border-gray-200">🚖 سائق</button>
-                    </div>
-                    <button onclick="validateStep1AndNext()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition">
-                        <i class="fa fa-arrow-left ml-2"></i> التالي
-                    </button>
-                </div>
-
-                <!-- الخطوة 2: طلب الرمز -->
-                <div id="regStep2" class="hidden-section">
-                    <div class="text-center py-2">
-                        <div class="w-20 h-20 bg-yellow-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fa fa-shield-alt text-yellow-500 text-4xl"></i>
-                        </div>
-                        <h3 class="font-bold text-gray-800 text-lg mb-2">خطوة التحقق الأمني</h3>
-                        <p class="text-sm text-gray-500 mb-5 leading-relaxed">
-                            سيتم إرسال <b>رمز تأكيد</b> إلى رقم الواتساب الخاص بك من قِبل الإدارة.<br>
-                            اضغط على الزر أدناه لطلب الرمز.
-                        </p>
-                        <button onclick="requestRegistrationCode()" id="requestCodeBtn" class="w-full bg-green-600 text-white py-4 rounded-xl font-bold hover:bg-green-700 transition mb-3">
-                            <i class="fa fa-paper-plane ml-2"></i> طلب رمز التأكيد
-                        </button>
-                        <div id="codeRequestedInfo" class="hidden-section bg-blue-50 border border-blue-100 rounded-xl p-3 mb-4 text-xs text-blue-700 text-right">
-                            <p class="font-bold mb-1"><i class="fa fa-check-circle ml-1"></i> تم إرسال طلبك للإدارة</p>
-                            <p>سيصلك الرمز على الواتساب خلال دقائق. إذا تأخر، تواصل مع الإدارة.</p>
-                        </div>
-                    </div>
-                    <button onclick="goToRegisterStep(3)" id="toStep3Btn" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                        <i class="fa fa-arrow-left ml-2"></i> لديّ الرمز، التالي
-                    </button>
-                    <button onclick="goToRegisterStep(1)" class="w-full text-gray-500 py-3 rounded-xl font-bold hover:bg-gray-50 transition mt-2 text-sm">
-                        <i class="fa fa-arrow-right ml-1"></i> رجوع
-                    </button>
-                </div>
-
-                <!-- الخطوة 3: إدخال الرمز -->
-                <div id="regStep3" class="hidden-section">
-                    <h3 class="font-bold text-gray-800 mb-2 flex items-center gap-2">
-                        <i class="fa fa-key text-blue-500"></i> أدخل رمز التأكيد
-                    </h3>
-                    <p class="text-xs text-gray-500 mb-4">أدخل الرمز المكوّن من 6 أرقام الذي وصلك عبر واتساب</p>
-                    <input type="text" id="regCode" placeholder="000000" maxlength="6" class="otp-input w-full p-4 border rounded-xl mb-4 outline-none focus:ring-2 ring-blue-500">
-                    <button onclick="verifyRegistrationCodeAndNext()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition">
-                        <i class="fa fa-check-circle ml-2"></i> التحقق من الرمز
-                    </button>
-                    <button onclick="goToRegisterStep(2)" class="w-full text-gray-500 py-3 rounded-xl font-bold hover:bg-gray-50 transition mt-2 text-sm">
-                        <i class="fa fa-arrow-right ml-1"></i> رجوع
-                    </button>
-                </div>
-
-                <!-- الخطوة 4: تعيين كلمة المرور -->
-                <div id="regStep4" class="hidden-section">
-                    <div class="text-center mb-4">
-                        <div class="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <i class="fa fa-lock text-green-500 text-3xl"></i>
-                        </div>
-                        <h3 class="font-bold text-gray-800 text-lg">تم التحقق بنجاح ✅</h3>
-                        <p class="text-xs text-gray-500 mt-1">الآن عيّن كلمة مرور لحسابك</p>
-                    </div>
-                    <div class="password-wrapper mb-3">
-                        <input type="password" id="regPassword" placeholder="كلمة المرور (6 أحرف على الأقل)" class="w-full p-4 border rounded-xl outline-none focus:ring-2 ring-blue-500">
-                        <i class="fa fa-eye password-toggle" onclick="togglePassword('regPassword', this)"></i>
-                    </div>
-                    <div class="password-wrapper mb-4">
-                        <input type="password" id="regPasswordConfirm" placeholder="تأكيد كلمة المرور" class="w-full p-4 border rounded-xl outline-none focus:ring-2 ring-blue-500">
-                        <i class="fa fa-eye password-toggle" onclick="togglePassword('regPasswordConfirm', this)"></i>
-                    </div>
-                    <button onclick="finalizeRegistration()" class="w-full bg-green-600 text-white py-4 rounded-xl font-bold hover:bg-green-700 transition">
-                        <i class="fa fa-user-check ml-2"></i> إنشاء الحساب
-                    </button>
-                </div>
-            </div>
-
-            <!-- ═══════════ نسيت كلمة المرور ═══════════ -->
-            <div id="forgotSection" class="hidden-section">
-                <!-- الخطوة 1: إدخال الهاتف -->
-                <div id="forgotStep1">
-                    <div class="bg-amber-50 border border-amber-100 rounded-xl p-3 mb-4 text-xs text-amber-800 flex items-start gap-2">
-                        <i class="fa fa-exclamation-triangle mt-0.5"></i>
-                        <span>أدخل رقم هاتفك المسجل، وسيتم إرسال رمز تحقق إلى واتساب الخاص بك من قِبل الإدارة لتعيين كلمة مرور جديدة.</span>
-                    </div>
-                    <input type="tel" id="forgotPhone" placeholder="رقم الهاتف المسجل" class="w-full p-4 border rounded-xl mb-4 outline-none focus:ring-2 ring-blue-500">
-                    <button onclick="requestPasswordReset()" id="forgotRequestBtn" class="w-full bg-amber-600 text-white py-4 rounded-xl font-bold hover:bg-amber-700 transition mb-3">
-                        <i class="fa fa-paper-plane ml-2"></i> طلب رمز التحقق
-                    </button>
-                    <div id="forgotRequestedInfo" class="hidden-section bg-blue-50 border border-blue-100 rounded-xl p-3 mb-4 text-xs text-blue-700">
-                        <p class="font-bold mb-1"><i class="fa fa-check-circle ml-1"></i> تم إرسال طلبك للإدارة</p>
-                        <p>سيصلك الرمز على الواتساب خلال دقائق.</p>
-                    </div>
-                </div>
-
-                <!-- الخطوة 2: إدخال الرمز -->
-                <div id="forgotStep2" class="hidden-section">
-                    <h3 class="font-bold text-gray-800 mb-2 flex items-center gap-2">
-                        <i class="fa fa-key text-blue-500"></i> أدخل رمز التحقق
-                    </h3>
-                    <input type="text" id="forgotCode" placeholder="000000" maxlength="6" class="otp-input w-full p-4 border rounded-xl mb-4 outline-none focus:ring-2 ring-blue-500">
-                    <button onclick="verifyForgotCodeAndNext()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition">
-                        <i class="fa fa-check-circle ml-2"></i> التحقق
-                    </button>
-                    <button onclick="showForgotStep(1)" class="w-full text-gray-500 py-3 rounded-xl font-bold hover:bg-gray-50 transition mt-2 text-sm">
-                        <i class="fa fa-arrow-right ml-1"></i> رجوع
-                    </button>
-                </div>
-
-                <!-- الخطوة 3: كلمة المرور الجديدة -->
-                <div id="forgotStep3" class="hidden-section">
-                    <div class="text-center mb-4">
-                        <div class="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <i class="fa fa-lock text-green-500 text-3xl"></i>
-                        </div>
-                        <h3 class="font-bold text-gray-800 text-lg">تم التحقق ✅</h3>
-                        <p class="text-xs text-gray-500 mt-1">عيّن كلمة مرور جديدة لحسابك</p>
-                    </div>
-                    <div class="password-wrapper mb-3">
-                        <input type="password" id="forgotNewPassword" placeholder="كلمة المرور الجديدة (6 أحرف على الأقل)" class="w-full p-4 border rounded-xl outline-none focus:ring-2 ring-blue-500">
-                        <i class="fa fa-eye password-toggle" onclick="togglePassword('forgotNewPassword', this)"></i>
-                    </div>
-                    <div class="password-wrapper mb-4">
-                        <input type="password" id="forgotNewPasswordConfirm" placeholder="تأكيد كلمة المرور" class="w-full p-4 border rounded-xl outline-none focus:ring-2 ring-blue-500">
-                        <i class="fa fa-eye password-toggle" onclick="togglePassword('forgotNewPasswordConfirm', this)"></i>
-                    </div>
-                    <button onclick="finalizePasswordReset()" class="w-full bg-green-600 text-white py-4 rounded-xl font-bold hover:bg-green-700 transition">
-                        <i class="fa fa-save ml-2"></i> حفظ كلمة المرور والدخول
-                    </button>
-                </div>
-            </div>
-
-            <!-- رسائل الحالة -->
-            <div id="authStatusMessage" class="hidden-section mt-4"></div>
-        </section>
-
-        <!-- الصفحة الرئيسية -->
-        <section id="homePage" class="hidden-section">
-            <div id="clientControls" class="hidden-section bg-white p-5 rounded-2xl shadow-sm mb-5 border-r-4 border-blue-500">
-                <h3 class="font-bold mb-4 text-blue-700 flex items-center gap-2">
-                    <i class="fa fa-plus-circle"></i> رفع طلب توصيل أمانة
-                </h3>
-                <div class="grid grid-cols-2 gap-3 mb-3">
-                    <input type="text" id="orderFrom" placeholder="مدينة الانطلاق" class="p-3 border rounded-xl outline-none focus:ring-2 ring-blue-300 text-sm">
-                    <input type="text" id="orderTo" placeholder="مدينة الوجهة" class="p-3 border rounded-xl outline-none focus:ring-2 ring-blue-300 text-sm">
-                </div>
-                <input type="number" id="orderPrice" placeholder="السعر المقترح (دينار)" class="w-full p-3 border rounded-xl mb-3 outline-none focus:ring-2 ring-blue-300 text-sm">
-                <textarea id="orderDesc" placeholder="وصف الأمانة (اختياري)" rows="2" class="w-full p-3 border rounded-xl mb-3 outline-none focus:ring-2 ring-blue-300 text-sm resize-none"></textarea>
-                <button onclick="submitOrder()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition">
-                    <i class="fa fa-paper-plane ml-2"></i> رفع الطلب
-                </button>
-            </div>
-
-            <div id="waitingMessage" class="hidden-section bg-yellow-50 p-6 rounded-2xl border border-yellow-200 text-center mb-5">
-                <i class="fa fa-hourglass-half text-yellow-500 text-3xl mb-2"></i>
-                <p class="font-bold text-yellow-800">حسابك بانتظار التفعيل</p>
-                <p class="text-sm text-yellow-600 mt-1">ستتمكن من قبول الطلبات فور موافقة الإدارة.</p>
-            </div>
-
-            <div id="disabledMessage" class="hidden-section bg-red-50 p-6 rounded-2xl border border-red-200 text-center mb-5">
-                <i class="fa fa-ban text-red-500 text-3xl mb-2"></i>
-                <p class="font-bold text-red-800">حسابك معطل</p>
-                <p class="text-sm text-red-600 mt-1">يرجى التواصل مع الإدارة.</p>
-            </div>
-
-            <div class="flex items-center justify-between mb-3">
-                <h3 id="feedTitle" class="font-bold text-gray-600 flex items-center gap-2">
-                    <i class="fa fa-list-ul text-blue-400"></i> الطلبات
-                </h3>
-                <div id="searchBar" class="hidden-section">
-                    <input type="text" id="searchInput" oninput="filterOrders()" placeholder="🔍 بحث..." class="p-2 px-3 rounded-lg border text-sm outline-none w-36">
-                </div>
-            </div>
-
-            <div id="mainFeed" class="space-y-4"></div>
-        </section>
-
-        <!-- الملف الشخصي -->
-        <section id="profilePage" class="hidden-section">
-            <div class="bg-white p-8 rounded-3xl shadow-sm text-center">
-                <div class="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600 text-4xl shadow-inner">
-                    <i class="fa fa-user-circle"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-800" id="profileName"></h2>
-                <div id="userBadgeProfile" class="badge-status inline-block my-2"></div>
-                <p class="text-gray-400 text-sm mb-6 flex items-center justify-center gap-1">
-                    <i class="fa fa-phone text-xs"></i> <span id="profilePhoneNum"></span>
-                </p>
-                <hr class="mb-6">
-                <button onclick="logout()" class="w-full text-red-500 font-bold py-3 rounded-xl border border-red-100 hover:bg-red-50 transition">
-                    <i class="fa fa-sign-out ml-2"></i> تسجيل الخروج
-                </button>
-            </div>
-        </section>
-
-        <!-- صندوق الوارد -->
-        <section id="inboxPage" class="hidden-section">
-            <h3 class="font-bold mb-4 text-gray-700 flex items-center gap-2">
-                <i class="fa fa-comments text-blue-400"></i> المحادثات
-            </h3>
-            <div id="inboxList" class="space-y-3"></div>
-        </section>
-
-        <!-- صفحة المحادثة -->
-        <section id="chatPage" class="hidden-section">
-            <button onclick="showPage('inbox')" class="mb-4 text-blue-600 flex items-center gap-2 font-medium">
-                <i class="fa fa-arrow-right"></i> <span id="chatHeaderName">رجوع</span>
-            </button>
-            <div id="chatPartnerInfo" class="hidden-section bg-blue-50 p-3 rounded-xl mb-3 flex items-center gap-3 border border-blue-100">
-                <div class="w-10 h-10 bg-blue-200 rounded-full flex items-center justify-center text-blue-700 font-bold text-lg" id="chatPartnerAvatar"></div>
-                <div>
-                    <p class="font-bold text-gray-800 text-sm" id="chatPartnerName"></p>
-                    <a id="chatPartnerPhone" href="" class="text-blue-600 text-xs flex items-center gap-1">
-                        <i class="fa fa-phone"></i> <span id="chatPartnerPhoneNum"></span>
+                <div class="buttons">
+                    <a href="https://apk.e-droid.net/apk/app3864462-a095yu.apk?v=5" class="btn android">
+                        <i class="bi bi-android2"></i>
+                        تحميل للأندرويد
                     </a>
+                    <div class="btn ios">
+                        <i class="bi bi-apple"></i>
+                        نسخة الآيفون قريبًا
+                    </div>
                 </div>
             </div>
-            <div id="chatMessages" class="bg-white p-4 rounded-2xl min-h-64 max-h-96 overflow-y-auto mb-4 flex flex-col gap-2 shadow-inner"></div>
-            <div class="flex gap-2">
-                <input type="text" id="chatInput" onkeypress="if(event.key==='Enter')sendMessage()" placeholder="اكتب رسالة..." class="flex-1 p-3 border rounded-xl outline-none focus:ring-2 ring-blue-300">
-                <button onclick="sendMessage()" class="bg-blue-600 text-white px-5 rounded-xl hover:bg-blue-700 transition">
-                    <i class="fa fa-paper-plane"></i>
-                </button>
+            <div class="phone">
+                <img src="https://up6.cc/2026/07/178414669659021.png" alt="تطبيق محطة">
             </div>
         </section>
-
+        <h2 class="section-title">لماذا محطة؟</h2>
+        <section class="features">
+            <div class="feature">
+                <i class="bi bi-send-fill"></i>
+                <h3>إرسال سريع</h3>
+                <p>
+                    أرسل طلباتك بسهولة وفي ثوانٍ.
+                </p>
+            </div>
+            <div class="feature">
+                <i class="bi bi-box-seam-fill"></i>
+                <h3>استلام مرن</h3>
+                <p>
+                    استلم شحناتك من المكان الذي يناسبك.
+                </p>
+            </div>
+            <div class="feature">
+                <i class="bi bi-geo-alt-fill"></i>
+                <h3>تتبع مباشر</h3>
+                <p>
+                    تابع حالة الطلب لحظة بلحظة.
+                </p>
+            </div>
+            <div class="feature">
+                <i class="bi bi-shield-check"></i>
+                <h3>خدمة آمنة</h3>
+                <p>
+                    بياناتك وطلباتك محفوظة بأعلى درجات الأمان.
+                </p>
+            </div>
+        </section>
+        <footer>
+            <strong>محطة</strong><br><br>
+            أرسل، استلم، وأنت في مكانك.
+            <br><br>
+            © 2026 جميع الحقوق محفوظة.
+        </footer>
     </div>
-
-    <nav id="bottomNav" class="hidden-section fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 z-50 shadow-[0_-2px_10px_rgba(0,0,0,0.06)]">
-        <button onclick="showPage('home')" id="navHome" class="nav-item flex flex-col items-center text-gray-400 transition">
-            <i class="fa fa-home text-xl"></i><span class="text-[10px] mt-1">الرئيسية</span>
-        </button>
-        <button onclick="showPage('inbox')" id="navInbox" class="nav-item flex flex-col items-center text-gray-400 relative transition">
-            <i class="fa fa-comments text-xl"></i><span class="text-[10px] mt-1">المحادثات</span>
-        </button>
-        <button onclick="showPage('profile')" id="navProfile" class="nav-item flex flex-col items-center text-gray-400 transition">
-            <i class="fa fa-user text-xl"></i><span class="text-[10px] mt-1">حسابي</span>
-        </button>
-    </nav>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, push, onValue, update, get, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBiS8iL2nTPXnzlx3BEyNKD3jIumpwx93o",
-            authDomain: "alqaidi-co-mahata.firebaseapp.com",
-            databaseURL: "https://alqaidi-co-mahata-default-rtdb.firebaseio.com",
-            projectId: "alqaidi-co-mahata",
-            storageBucket: "alqaidi-co-mahata.firebasestorage.app",
-            messagingSenderId: "829285138922",
-            appId: "1:829285138922:web:3fc441704a704ba6a03293"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        let currentUser = JSON.parse(localStorage.getItem('mahata_user'));
-        let selectedRegRole = '';
-        let allOrders = {};
-        let activeChatId = null;
-        let activeReceiverId = null;
-        let verifiedPhone = null;       // بعد التحقق من الرمز في التسجيل
-        let forgotVerifiedPhone = null; // بعد التحقق من الرمز في نسيت كلمة المرور
-
-        // ══════════════════════════════════════════
-        // دوال مساعدة
-        // ══════════════════════════════════════════
-
-        window.togglePassword = (inputId, icon) => {
-            const input = document.getElementById(inputId);
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.add('fa-eye');
-                icon.classList.remove('fa-eye-slash');
-            }
-        };
-
-        // تشفير كلمة المرور (بسيط - يمكن استبداله بـ bcrypt في production)
-        async function hashPassword(password) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password + 'mahata_salt_2024');
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        function showAuthMessage(message, type = 'error') {
-            const el = document.getElementById('authStatusMessage');
-            el.classList.remove('hidden-section');
-            el.innerHTML = `<div class="p-3 rounded-xl text-sm font-bold ${type === 'error' ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-green-50 text-green-700 border border-green-200'}">${message}</div>`;
-            setTimeout(() => el.classList.add('hidden-section'), 6000);
-        }
-
-        // ══════════════════════════════════════════
-        // تبديل تبويبات المصادقة
-        // ══════════════════════════════════════════
-
-        window.switchAuthTab = (tab) => {
-            ['login', 'register', 'forgot'].forEach(t => {
-                document.getElementById(t + 'Section').classList.add('hidden-section');
-                document.getElementById('authTab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.remove('active');
-            });
-            document.getElementById(tab + 'Section').classList.remove('hidden-section');
-            document.getElementById('authTab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
-            document.getElementById('authStatusMessage').classList.add('hidden-section');
-            
-            if (tab === 'register') goToRegisterStep(1);
-            if (tab === 'forgot') showForgotStep(1);
-        };
-
-        // ══════════════════════════════════════════
-        // التسجيل الجديد
-        // ══════════════════════════════════════════
-
-        window.selectRegRole = (role) => {
-            selectedRegRole = role;
-            document.getElementById('regRoleClient').className = role === 'client'
-                ? 'flex-1 py-4 rounded-xl border-2 border-blue-500 bg-blue-50 text-blue-600 font-bold transition-all'
-                : 'flex-1 py-4 rounded-xl border-2 border-gray-200 text-gray-400 font-bold transition-all';
-            document.getElementById('regRoleDriver').className = role === 'driver'
-                ? 'flex-1 py-4 rounded-xl border-2 border-green-500 bg-green-50 text-green-600 font-bold transition-all'
-                : 'flex-1 py-4 rounded-xl border-2 border-gray-200 text-gray-400 font-bold transition-all';
-        };
-
-        window.goToRegisterStep = (step) => {
-            [1, 2, 3, 4].forEach(s => {
-                document.getElementById('regStep' + s).classList.add('hidden-section');
-                const indicator = document.getElementById('step' + s + 'Indicator');
-                if (indicator) {
-                    indicator.className = 'step-indicator w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ' + 
-                        (s < step ? 'done' : s === step ? 'active' : 'bg-gray-100 text-gray-400');
-                }
-            });
-            document.getElementById('regStep' + step).classList.remove('hidden-section');
-            if (step === 3) setTimeout(() => document.getElementById('regCode')?.focus(), 100);
-            if (step === 4) setTimeout(() => document.getElementById('regPassword')?.focus(), 100);
-        };
-
-        window.validateStep1AndNext = async () => {
-            const name = document.getElementById('regName').value.trim();
-            const phone = document.getElementById('regPhone').value.trim().replace(/\s/g, '');
-
-            if (!name || !phone || !selectedRegRole) {
-                alert('⚠️ الرجاء إدخال الاسم ورقم الهاتف واختيار نوع الحساب');
-                return;
-            }
-            if (!/^09\d{8}$/.test(phone)) {
-                alert('⚠️ رقم الهاتف غير صحيح. استخدم صيغة 0912345678');
-                return;
-            }
-
-            // التحقق من عدم وجود الحساب مسبقاً
-            const snap = await get(ref(db, 'users/' + phone));
-            if (snap.exists()) {
-                alert('⚠️ هذا الرقم مسجل مسبقاً.\n\nإذا كان لديك حساب، استخدم "تسجيل الدخول" أو "نسيت كلمة المرور".');
-                return;
-            }
-            goToRegisterStep(2);
-        };
-
-        window.requestRegistrationCode = async () => {
-            const name = document.getElementById('regName').value.trim();
-            const phone = document.getElementById('regPhone').value.trim().replace(/\s/g, '');
-
-            const existingSnap = await get(ref(db, 'pending_codes/' + phone));
-            if (existingSnap.exists()) {
-                const existing = existingSnap.val();
-                if (existing.type === 'register' && existing.status === 'pending') {
-                    alert('ℹ️ لديك طلب قيد المراجعة بالفعل. يرجى انتظار وصول الرمز من الإدارة.');
-                    document.getElementById('codeRequestedInfo').classList.remove('hidden-section');
-                    document.getElementById('toStep3Btn').disabled = false;
-                    return;
-                }
-                if (existing.type === 'register' && existing.status === 'approved') {
-                    // رمز جاهز
-                    document.getElementById('codeRequestedInfo').classList.remove('hidden-section');
-                    document.getElementById('toStep3Btn').disabled = false;
-                    alert('ℹ️ الرمز جاهز! تحقق من واتساب ثم اضغط "لديّ الرمز، التالي".');
-                    return;
-                }
-            }
-
-            const btn = document.getElementById('requestCodeBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa fa-spinner fa-spin ml-2"></i> جاري الإرسال...';
-
-            try {
-                await set(ref(db, 'pending_codes/' + phone), {
-                    name, phone, role: selectedRegRole,
-                    type: 'register', status: 'pending',
-                    requestedAt: Date.now()
-                });
-
-                document.getElementById('codeRequestedInfo').classList.remove('hidden-section');
-                document.getElementById('toStep3Btn').disabled = false;
-                btn.innerHTML = '<i class="fa fa-redo ml-2"></i> إعادة طلب الرمز';
-                btn.disabled = false;
-
-                alert('✅ تم إرسال طلبك للإدارة!\n\nسيصلك رمز التأكيد على الواتساب قريباً.');
-            } catch (err) {
-                alert('❌ حدث خطأ: ' + err.message);
-                btn.innerHTML = '<i class="fa fa-paper-plane ml-2"></i> طلب رمز التأكيد';
-                btn.disabled = false;
-            }
-        };
-
-        window.verifyRegistrationCodeAndNext = async () => {
-            const phone = document.getElementById('regPhone').value.trim().replace(/\s/g, '');
-            const code = document.getElementById('regCode').value.trim();
-
-            if (!code || code.length !== 6) {
-                alert('⚠️ الرجاء إدخال رمز مكوّن من 6 أرقام');
-                return;
-            }
-
-            const snap = await get(ref(db, 'pending_codes/' + phone));
-            if (!snap.exists()) {
-                alert('⚠️ لا يوجد طلب تسجيل لهذا الرقم');
-                return;
-            }
-
-            const data = snap.val();
-            if (data.status !== 'approved') {
-                alert('⏳ لم يتم الموافقة على طلبك بعد. يرجى انتظار وصول الرمز من الإدارة.');
-                return;
-            }
-            if (data.code !== code) {
-                alert('❌ الرمز غير صحيح. يرجى التأكد من الرمز المرسل عبر واتساب.');
-                return;
-            }
-
-            verifiedPhone = phone;
-            alert('✅ تم التحقق من الرمز بنجاح!\n\nالخطوة التالية: تعيين كلمة المرور.');
-            goToRegisterStep(4);
-        };
-
-        window.finalizeRegistration = async () => {
-            const password = document.getElementById('regPassword').value;
-            const confirm = document.getElementById('regPasswordConfirm').value;
-            const name = document.getElementById('regName').value.trim();
-            const phone = verifiedPhone;
-
-            if (!phone) {
-                alert('⚠️ يجب التحقق من الرمز أولاً');
-                goToRegisterStep(3);
-                return;
-            }
-            if (!password || password.length < 6) {
-                alert('⚠️ كلمة المرور يجب أن تكون 6 أحرف على الأقل');
-                return;
-            }
-            if (password !== confirm) {
-                alert('⚠️ كلمتا المرور غير متطابقتين');
-                return;
-            }
-
-            const passwordHash = await hashPassword(password);
-            const pendingSnap = await get(ref(db, 'pending_codes/' + phone));
-            const pendingData = pendingSnap.exists() ? pendingSnap.val() : {};
-
-            const userData = {
-                id: phone,
-                name: name || pendingData.name || '',
-                phone,
-                role: selectedRegRole || pendingData.role || 'client',
-                passwordHash,
-                status: (selectedRegRole || pendingData.role) === 'driver' ? 'pending' : 'approved',
-                createdAt: Date.now()
-            };
-
-            try {
-                await set(ref(db, 'users/' + phone), userData);
-                await remove(ref(db, 'pending_codes/' + phone));
-                localStorage.setItem('mahata_user', JSON.stringify(userData));
-                
-                if (userData.role === 'driver') {
-                    alert('✅ تم إنشاء حسابك بنجاح!\n\n⏳ حسابك كسائق قيد المراجعة. سيتم تفعيله من قِبل الإدارة قريباً.');
-                } else {
-                    alert('✅ تم إنشاء حسابك وتسجيل دخولك بنجاح!');
-                }
-                location.reload();
-            } catch (err) {
-                alert('❌ خطأ: ' + err.message);
-            }
-        };
-
-        // ══════════════════════════════════════════
-        // تسجيل الدخول
-        // ══════════════════════════════════════════
-
-        window.doLogin = async () => {
-            const phone = document.getElementById('loginPhone').value.trim().replace(/\s/g, '');
-            const password = document.getElementById('loginPassword').value;
-
-            if (!phone || !password) {
-                showAuthMessage('⚠️ الرجاء إدخال رقم الهاتف وكلمة المرور');
-                return;
-            }
-            if (!/^09\d{8}$/.test(phone)) {
-                showAuthMessage('⚠️ رقم الهاتف غير صحيح. استخدم صيغة 0912345678');
-                return;
-            }
-
-            const userSnap = await get(ref(db, 'users/' + phone));
-            if (!userSnap.exists()) {
-                showAuthMessage('⚠️ هذا الرقم غير مسجل. يرجى إنشاء حساب جديد.');
-                return;
-            }
-
-            const user = userSnap.val();
-
-            if (user.status === 'disabled') {
-                showAuthMessage('⚠️ حسابك معطل. يرجى التواصل مع الإدارة.');
-                return;
-            }
-
-            // التحقق من كلمة المرور
-            if (!user.passwordHash) {
-                // مستخدم قديم بدون كلمة مرور → يطلب إعادة تعيين
-                showAuthMessage('ℹ️ حسابك قديم ولم يتم تعيين كلمة مرور له بعد. يرجى استخدام "نسيت كلمة المرور" لتعيين كلمة مرور.', 'info');
-                setTimeout(() => switchAuthTab('forgot'), 2000);
-                return;
-            }
-
-            const inputHash = await hashPassword(password);
-            if (user.passwordHash !== inputHash) {
-                showAuthMessage('❌ كلمة المرور غير صحيحة');
-                return;
-            }
-
-            localStorage.setItem('mahata_user', JSON.stringify(user));
-            location.reload();
-        };
-
-        // ══════════════════════════════════════════
-        // نسيت كلمة المرور
-        // ══════════════════════════════════════════
-
-        window.showForgotStep = (step) => {
-            [1, 2, 3].forEach(s => document.getElementById('forgotStep' + s).classList.add('hidden-section'));
-            document.getElementById('forgotStep' + step).classList.remove('hidden-section');
-            if (step === 2) setTimeout(() => document.getElementById('forgotCode')?.focus(), 100);
-            if (step === 3) setTimeout(() => document.getElementById('forgotNewPassword')?.focus(), 100);
-        };
-
-        window.requestPasswordReset = async () => {
-            const phone = document.getElementById('forgotPhone').value.trim().replace(/\s/g, '');
-            if (!phone || !/^09\d{8}$/.test(phone)) {
-                alert('⚠️ الرجاء إدخال رقم هاتف صحيح');
-                return;
-            }
-
-            const userSnap = await get(ref(db, 'users/' + phone));
-            if (!userSnap.exists()) {
-                alert('⚠️ هذا الرقم غير مسجل في النظام');
-                return;
-            }
-            const user = userSnap.val();
-            if (user.status === 'disabled') {
-                alert('⚠️ حسابك معطل. يرجى التواصل مع الإدارة.');
-                return;
-            }
-
-            // التحقق من وجود طلب سابق
-            const existingSnap = await get(ref(db, 'pending_codes/' + phone));
-            if (existingSnap.exists()) {
-                const existing = existingSnap.val();
-                if (existing.type === 'reset' && existing.status === 'pending') {
-                    alert('ℹ️ لديك طلب إعادة تعيين قيد المراجعة. يرجى انتظار الرمز من الإدارة.');
-                    document.getElementById('forgotRequestedInfo').classList.remove('hidden-section');
-                    showForgotStep(2);
-                    return;
-                }
-                if (existing.type === 'reset' && existing.status === 'approved') {
-                    document.getElementById('forgotRequestedInfo').classList.remove('hidden-section');
-                    showForgotStep(2);
-                    alert('ℹ️ الرمز جاهز! تحقق من واتساب.');
-                    return;
-                }
-            }
-
-            const btn = document.getElementById('forgotRequestBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa fa-spinner fa-spin ml-2"></i> جاري الإرسال...';
-
-            try {
-                await set(ref(db, 'pending_codes/' + phone), {
-                    name: user.name, phone, role: user.role,
-                    type: 'reset', status: 'pending',
-                    requestedAt: Date.now()
-                });
-
-                document.getElementById('forgotRequestedInfo').classList.remove('hidden-section');
-                btn.innerHTML = '<i class="fa fa-redo ml-2"></i> إعادة طلب الرمز';
-                btn.disabled = false;
-                alert('✅ تم إرسال طلبك للإدارة!\nسيصلك رمز التحقق على الواتساب قريباً.');
-                showForgotStep(2);
-            } catch (err) {
-                alert('❌ خطأ: ' + err.message);
-                btn.innerHTML = '<i class="fa fa-paper-plane ml-2"></i> طلب رمز التحقق';
-                btn.disabled = false;
-            }
-        };
-
-        window.verifyForgotCodeAndNext = async () => {
-            const phone = document.getElementById('forgotPhone').value.trim().replace(/\s/g, '');
-            const code = document.getElementById('forgotCode').value.trim();
-
-            if (!code || code.length !== 6) {
-                alert('⚠️ أدخل رمز مكوّن من 6 أرقام');
-                return;
-            }
-
-            const snap = await get(ref(db, 'pending_codes/' + phone));
-            if (!snap.exists()) {
-                alert('⚠️ لا يوجد طلب إعادة تعيين لهذا الرقم');
-                return;
-            }
-            const data = snap.val();
-            if (data.type !== 'reset') {
-                alert('⚠️ نوع الطلب غير صحيح');
-                return;
-            }
-            if (data.status !== 'approved') {
-                alert('⏳ لم يتم إصدار الرمز بعد. يرجى الانتظار.');
-                return;
-            }
-            if (data.code !== code) {
-                alert('❌ الرمز غير صحيح');
-                return;
-            }
-
-            forgotVerifiedPhone = phone;
-            alert('✅ تم التحقق!\nعيّن كلمة المرور الجديدة.');
-            showForgotStep(3);
-        };
-
-        window.finalizePasswordReset = async () => {
-            const password = document.getElementById('forgotNewPassword').value;
-            const confirm = document.getElementById('forgotNewPasswordConfirm').value;
-            const phone = forgotVerifiedPhone;
-
-            if (!phone) {
-                alert('⚠️ يجب التحقق من الرمز أولاً');
-                showForgotStep(2);
-                return;
-            }
-            if (!password || password.length < 6) {
-                alert('⚠️ كلمة المرور يجب أن تكون 6 أحرف على الأقل');
-                return;
-            }
-            if (password !== confirm) {
-                alert('⚠️ كلمتا المرور غير متطابقتين');
-                return;
-            }
-
-            const passwordHash = await hashPassword(password);
-
-            try {
-                await update(ref(db, 'users/' + phone), { passwordHash });
-                await remove(ref(db, 'pending_codes/' + phone));
-
-                const userSnap = await get(ref(db, 'users/' + phone));
-                const user = userSnap.val();
-                localStorage.setItem('mahata_user', JSON.stringify(user));
-                alert('✅ تم تعيين كلمة المرور الجديدة وتسجيل الدخول!');
-                location.reload();
-            } catch (err) {
-                alert('❌ خطأ: ' + err.message);
-            }
-        };
-
-        window.logout = () => { localStorage.removeItem('mahata_user'); location.reload(); };
-
-        // ══════════════════════════════════════════
-        // التنقل والصفحات
-        // ══════════════════════════════════════════
-
-        window.showPage = (page) => {
-            ['homePage', 'inboxPage', 'chatPage', 'profilePage'].forEach(s => document.getElementById(s).classList.add('hidden-section'));
-            document.getElementById(page + 'Page').classList.remove('hidden-section');
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            const navBtn = document.getElementById('nav' + page.charAt(0).toUpperCase() + page.slice(1));
-            if (navBtn) navBtn.classList.add('active');
-            if (page === 'home') loadOrders();
-            if (page === 'inbox') loadInbox();
-        };
-
-        function updateStatusUI(status, role) {
-            const badges = [document.getElementById('userBadgeHeader'), document.getElementById('userBadgeProfile')];
-            let text = '', cls = '';
-            if (status === 'disabled') { text = 'معطل'; cls = 'status-disabled'; }
-            else if (role === 'client') { text = 'عميل'; cls = 'status-client'; }
-            else { text = status === 'approved' ? 'سائق معتمد' : 'سائق (قيد المراجعة)'; cls = status === 'approved' ? 'status-approved' : 'status-pending'; }
-            badges.forEach(b => { if(b) { b.innerText = text; b.className = 'badge-status ' + cls; } });
-            
-            const disabledMsg = document.getElementById('disabledMessage');
-            const waitingMsg = document.getElementById('waitingMessage');
-            if (status === 'disabled') {
-                disabledMsg.classList.remove('hidden-section');
-                waitingMsg.classList.add('hidden-section');
-            } else {
-                disabledMsg.classList.add('hidden-section');
-            }
-        }
-
-        // ══════════════════════════════════════════
-        // الطلبات
-        // ══════════════════════════════════════════
-
-        window.submitOrder = () => {
-            if (currentUser.status === 'disabled') { alert('⚠️ حسابك معطل.'); return; }
-            const from = document.getElementById('orderFrom').value.trim();
-            const to = document.getElementById('orderTo').value.trim();
-            const price = document.getElementById('orderPrice').value.trim();
-            const desc = document.getElementById('orderDesc').value.trim();
-            if (!from || !to || !price) return alert("الرجاء إدخال مدينة الانطلاق والوجهة والسعر");
-
-            push(ref(db, 'orders'), {
-                clientId: currentUser.id, clientName: currentUser.name, clientPhone: currentUser.phone,
-                from, to, price, desc: desc || '', status: 'open', driverId: null, driverName: null, driverPhone: null,
-                time: Date.now(), completed: false, cancelled: false
-            }).then(() => {
-                document.getElementById('orderFrom').value = '';
-                document.getElementById('orderTo').value = '';
-                document.getElementById('orderPrice').value = '';
-                document.getElementById('orderDesc').value = '';
-                alert("✅ تم رفع طلبك!");
-            });
-        };
-
-        window.acceptOrder = async (orderId) => {
-            if (currentUser.status === 'disabled') { alert('⚠️ حسابك معطل.'); return; }
-            const snap = await get(ref(db, 'orders/' + orderId));
-            const order = snap.val();
-            if (!order || order.status !== 'open') { alert("⚠️ تم قبول الطلب من سائق آخر."); return; }
-            await update(ref(db, 'orders/' + orderId), {
-                status: 'accepted', driverId: currentUser.id, driverName: currentUser.name, driverPhone: currentUser.phone
-            });
-            openChat(order.clientId, order.clientName, order.clientPhone);
-            alert("✅ قبلت الطلب!");
-        };
-
-        window.completeOrder = async (orderId) => {
-            if (!confirm('هل أنت متأكد من إكمال المهمة؟')) return;
-            await update(ref(db, 'orders/' + orderId), { completed: true, status: 'completed' });
-            alert('✅ تم إكمال المهمة!');
-        };
-
-        window.cancelOrder = async (orderId) => {
-            if (!confirm('إلغاء المهمة؟ ستعود الطلب متاحاً لسائقين آخرين.')) return;
-            await update(ref(db, 'orders/' + orderId), {
-                status: 'open', driverId: null, driverName: null, driverPhone: null, cancelled: true
-            });
-            alert('🔄 تم إلغاء المهمة.');
-        };
-
-        window.cancelOrderByClient = async (orderId) => {
-            if (!confirm('هل تريد إلغاء طلبك؟')) return;
-            await remove(ref(db, 'orders/' + orderId));
-            alert('🗑️ تم الإلغاء.');
-        };
-
-        function loadOrders() {
-            onValue(ref(db, 'orders'), (snapshot) => {
-                allOrders = snapshot.val() || {};
-                renderOrders(allOrders);
-            });
-        }
-
-        window.filterOrders = () => {
-            const q = document.getElementById('searchInput').value.toLowerCase();
-            renderOrders(allOrders, q);
-        };
-
-        function renderOrders(data, query = "") {
-            const feed = document.getElementById('mainFeed');
-            feed.innerHTML = '';
-            let count = 0;
-
-            for (let id in data) {
-                const o = data[id];
-                if (currentUser.role === 'client') {
-                    if (o.clientId !== currentUser.id) continue;
-                } else {
-                    if (o.status !== 'open' && o.driverId !== currentUser.id) continue;
-                    if (o.status === 'open' && currentUser.status !== 'approved') continue;
-                }
-                if (query && !(o.from.toLowerCase().includes(query) || o.to.toLowerCase().includes(query))) continue;
-
-                count++;
-                const isDriver = currentUser.role === 'driver';
-                const isOpen = o.status === 'open';
-                const isAccepted = o.status === 'accepted' && o.driverId === currentUser.id;
-                const isCompleted = o.completed === true;
-
-                let actionBtn = '';
-                if (isDriver && isOpen && currentUser.status === 'approved') {
-                    actionBtn = `<button onclick="acceptOrder('${id}')" class="bg-green-600 text-white px-5 py-2 rounded-xl text-sm font-bold hover:bg-green-700 transition flex items-center gap-2"><i class="fa fa-check"></i> قبول الطلب</button>`;
-                } else if (isDriver && isAccepted) {
-                    actionBtn = `<div class="flex gap-2 flex-wrap">
-                        <button onclick="completeOrder('${id}')" class="bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-emerald-700 transition flex items-center gap-1"><i class="fa fa-check-circle"></i> إكمال</button>
-                        <button onclick="cancelOrder('${id}')" class="bg-red-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-red-600 transition flex items-center gap-1"><i class="fa fa-times"></i> إلغاء</button>
-                    </div>`;
-                } else if (!isDriver && isOpen) {
-                    actionBtn = `<span class="text-xs text-yellow-700 font-bold bg-yellow-50 px-3 py-2 rounded-lg flex items-center gap-1"><i class="fa fa-clock pulse-dot"></i> في انتظار سائق</span>`;
-                } else if (!isDriver && isCompleted) {
-                    actionBtn = `<span class="text-xs text-green-700 font-bold bg-green-50 px-3 py-2 rounded-lg flex items-center gap-1"><i class="fa fa-check-circle"></i> ✅ مكتمل</span>`;
-                }
-
-                let driverInfo = '';
-                if (!isDriver && o.status === 'accepted' && o.driverName) {
-                    driverInfo = `<div class="driver-info-box text-white p-4 rounded-xl mt-3">
-                        <p class="text-xs opacity-70 mb-2"><i class="fa fa-check-circle text-green-300"></i> تم قبول طلبك من:</p>
-                        <div class="flex items-center justify-between">
-                            <div><p class="font-bold text-lg">${o.driverName}</p>
-                            <a href="tel:${o.driverPhone}" class="text-yellow-300 text-sm flex items-center gap-1 mt-1"><i class="fa fa-phone"></i> ${o.driverPhone}</a></div>
-                            <button onclick="openChat('${o.driverId}', '${o.driverName}', '${o.driverPhone}')" class="bg-white text-blue-700 px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-50 transition"><i class="fa fa-comments ml-1"></i> مراسلة</button>
-                        </div>
-                    </div>`;
-                }
-
-                let acceptedDetails = '';
-                if (isDriver && isAccepted) {
-                    acceptedDetails = `<div class="bg-blue-50 p-4 rounded-xl mt-3 border border-blue-100">
-                        <p class="text-sm font-bold text-blue-800 flex items-center gap-2 mb-2"><i class="fa fa-info-circle"></i> تفاصيل الأمانة</p>
-                        <div class="grid grid-cols-2 gap-2 text-sm">
-                            <div><span class="text-gray-500">من:</span> <span class="font-bold">${o.from}</span></div>
-                            <div><span class="text-gray-500">إلى:</span> <span class="font-bold">${o.to}</span></div>
-                            <div><span class="text-gray-500">السعر:</span> <span class="font-bold text-green-600">${o.price} د.ل</span></div>
-                            <div><span class="text-gray-500">العميل:</span> <span class="font-bold">${o.clientName}</span></div>
-                        </div>
-                        ${o.desc ? `<p class="text-xs text-gray-600 mt-2 bg-white p-2 rounded-lg"><i class="fa fa-file-text ml-1 text-gray-400"></i>${o.desc}</p>` : ''}
-                        <button onclick="openChat('${o.clientId}', '${o.clientName}', '${o.clientPhone}')" class="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2"><i class="fa fa-comments"></i> مراسلة العميل</button>
-                    </div>`;
-                }
-
-                let cancelBtn = '';
-                if (!isDriver && (isOpen || o.status === 'accepted') && !isCompleted) {
-                    cancelBtn = `<button onclick="cancelOrderByClient('${id}')" class="text-red-500 text-xs font-bold hover:underline flex items-center gap-1"><i class="fa fa-trash"></i> إلغاء</button>`;
-                }
-
-                feed.innerHTML += `<div class="order-card bg-white p-4 rounded-2xl shadow-sm border ${isCompleted ? 'border-green-200' : 'border-gray-100'}">
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="flex items-center gap-2 font-bold text-gray-800 flex-wrap">
-                            <span class="text-blue-600">${o.from}</span><i class="fa fa-arrow-left text-xs text-gray-300"></i><span>${o.to}</span>
-                        </div>
-                        <span class="text-green-600 font-bold text-lg whitespace-nowrap">${o.price} د.ل</span>
-                    </div>
-                    ${o.desc ? `<p class="text-xs text-gray-500 mb-3 bg-gray-50 p-2 rounded-lg"><i class="fa fa-info-circle ml-1 text-gray-400"></i>${o.desc}</p>` : ''}
-                    <div class="flex items-center justify-between border-t pt-3 mt-1">
-                        <span class="text-xs text-gray-400 flex items-center gap-1"><i class="fa fa-user text-gray-300"></i>${isDriver ? o.clientName : 'طلبي'}</span>
-                        <div class="flex items-center gap-2">${cancelBtn}${actionBtn}</div>
-                    </div>
-                    ${driverInfo}${acceptedDetails}
-                    ${isCompleted && !isDriver ? `<div class="mt-3 p-3 bg-green-50 rounded-xl border border-green-200 text-center text-green-700 text-sm font-bold"><i class="fa fa-check-circle ml-1"></i> تم إكمال الأمانة</div>` : ''}
-                </div>`;
-            }
-
-            if (count === 0) {
-                let msg = currentUser.role === 'driver' ? 'لا توجد طلبات مفتوحة' : 'لم ترفع أي طلبات بعد';
-                feed.innerHTML = `<div class="text-center py-16 text-gray-400"><i class="fa fa-box-open text-4xl mb-3 text-gray-300 block"></i><p>${msg}</p></div>`;
-            }
-        }
-
-        // ══════════════════════════════════════════
-        // المحادثات
-        // ══════════════════════════════════════════
-
-        window.openChat = (receiverId, receiverName, receiverPhone = '') => {
-            activeReceiverId = receiverId;
-            activeChatId = currentUser.id < receiverId ? `${currentUser.id}_${receiverId}` : `${receiverId}_${currentUser.id}`;
-            document.getElementById('chatHeaderName').innerText = receiverName;
-
-            const partnerInfo = document.getElementById('chatPartnerInfo');
-            if (receiverPhone) {
-                partnerInfo.classList.remove('hidden-section');
-                document.getElementById('chatPartnerAvatar').innerText = receiverName[0];
-                document.getElementById('chatPartnerName').innerText = receiverName;
-                document.getElementById('chatPartnerPhoneNum').innerText = receiverPhone;
-                document.getElementById('chatPartnerPhone').href = 'tel:' + receiverPhone;
-            } else partnerInfo.classList.add('hidden-section');
-
-            showPage('chat');
-            document.getElementById('chatMessages').innerHTML = '<p class="text-center text-gray-400 text-sm py-4">جاري التحميل...</p>';
-            onValue(ref(db, `chats/${activeChatId}/messages`), (snapshot) => renderMessages(snapshot.val()));
-            update(ref(db, `chats/${activeChatId}/metadata`), {
-                [`name_${currentUser.id}`]: currentUser.name,
-                [`phone_${currentUser.id}`]: currentUser.phone,
-                [`name_${receiverId}`]: receiverName,
-                [`phone_${receiverId}`]: receiverPhone,
-                lastUpdate: Date.now()
-            });
-        };
-
-        window.sendMessage = () => {
-            const text = document.getElementById('chatInput').value.trim();
-            if (!text || !activeChatId) return;
-            push(ref(db, `chats/${activeChatId}/messages`), {
-                senderId: currentUser.id, senderName: currentUser.name, text, timestamp: Date.now()
-            });
-            update(ref(db, `chats/${activeChatId}/metadata`), { lastMessage: text, lastUpdate: Date.now() });
-            document.getElementById('chatInput').value = '';
-        };
-
-        function renderMessages(msgs) {
-            const container = document.getElementById('chatMessages');
-            container.innerHTML = '';
-            if (!msgs) { container.innerHTML = '<p class="text-center text-gray-400 text-sm py-6">ابدأ المحادثة 👋</p>'; return; }
-            for (let id in msgs) {
-                const m = msgs[id];
-                const isMe = m.senderId === currentUser.id;
-                container.innerHTML += `<div class="max-w-[78%] p-3 ${isMe ? 'msg-me' : 'msg-them shadow-sm'}"><p class="text-sm leading-relaxed">${m.text}</p></div>`;
-            }
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function loadInbox() {
-            const inboxList = document.getElementById('inboxList');
-            inboxList.innerHTML = '<p class="text-center text-gray-400 py-8">جاري التحميل...</p>';
-            onValue(ref(db, 'chats'), (snapshot) => {
-                const chats = snapshot.val();
-                inboxList.innerHTML = '';
-                let hasChats = false;
-                for (let chatId in chats) {
-                    if (!chatId.includes(currentUser.id)) continue;
-                    hasChats = true;
-                    const meta = chats[chatId].metadata || {};
-                    const ids = chatId.split('_');
-                    const otherId = ids[0] === currentUser.id ? ids[1] : ids[0];
-                    const otherName = meta[`name_${otherId}`] || 'مستخدم';
-                    const otherPhone = meta[`phone_${otherId}`] || '';
-                    inboxList.innerHTML += `<div onclick="openChat('${otherId}', '${otherName}', '${otherPhone}')" class="bg-white p-4 rounded-2xl flex items-center gap-3 shadow-sm border border-gray-100 active:scale-95 transition-transform cursor-pointer">
-                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-lg">${otherName[0]}</div>
-                        <div class="flex-1 min-w-0"><h4 class="font-bold text-gray-800">${otherName}</h4><p class="text-xs text-gray-400 truncate">${meta.lastMessage || 'ابدأ المحادثة'}</p></div>
-                        <i class="fa fa-chevron-left text-gray-300 text-xs"></i>
-                    </div>`;
-                }
-                if (!hasChats) inboxList.innerHTML = '<div class="text-center py-16 text-gray-400"><i class="fa fa-comments text-4xl mb-3 text-gray-300 block"></i><p>لا توجد محادثات</p></div>';
-            });
-        }
-
-        // ══════════════════════════════════════════
-        // التهيئة
-        // ══════════════════════════════════════════
-
-        if (currentUser) {
-            document.getElementById('authPage').classList.add('hidden-section');
-            document.getElementById('bottomNav').classList.remove('hidden-section');
-            document.getElementById('profileName').innerText = currentUser.name;
-            document.getElementById('profilePhoneNum').innerText = currentUser.phone;
-
-            onValue(ref(db, 'users/' + currentUser.id), (snapshot) => {
-                const data = snapshot.val();
-                if (!data) return;
-                currentUser = data;
-                localStorage.setItem('mahata_user', JSON.stringify(data));
-                updateStatusUI(data.status, data.role);
-
-                if (data.role === 'driver') {
-                    document.getElementById('feedTitle').innerText = "الطلبات المتاحة";
-                    if (data.status === 'pending') document.getElementById('waitingMessage').classList.remove('hidden-section');
-                } else {
-                    document.getElementById('clientControls').classList.remove('hidden-section');
-                    document.getElementById('searchBar').classList.remove('hidden-section');
-                    document.getElementById('feedTitle').innerText = "طلباتي";
-                }
-            });
-            showPage('home');
-        }
-    </script>
 </body>
 </html>
